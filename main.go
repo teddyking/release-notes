@@ -10,8 +10,12 @@ import (
 	"strings"
 )
 
+const path = ".github/release-notes.yml"
+
 func main() {
-	releaseNotesConfig := config.MustLoad(".github/release-notes.yml")
+	fmt.Printf("[DEBUG] loading config from %s\n", path)
+
+	releaseNotesConfig := config.MustLoad(path)
 	accessToken := os.Getenv("GITHUB_TOKEN")
 	if accessToken == "" {
 		panic("no access token is available via GITHUB_TOKEN")

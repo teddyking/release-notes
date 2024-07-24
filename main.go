@@ -16,6 +16,9 @@ func main() {
 	fmt.Printf("[DEBUG] loading config from %s\n", path)
 
 	releaseNotesConfig := config.MustLoad(path)
+
+	fmt.Printf("[DEBUG] got config %+v\n", releaseNotesConfig)
+
 	accessToken := os.Getenv("GITHUB_TOKEN")
 	if accessToken == "" {
 		panic("no access token is available via GITHUB_TOKEN")

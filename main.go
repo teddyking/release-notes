@@ -26,15 +26,25 @@ func main() {
 		panic(err)
 	}
 
+	fmt.Printf("[DEBUG] looking for commits on %s/%s between %s and %s\n",
+		releaseNotesConfig.Owner, releaseNotesConfig.Repo,
+		previousRelease, currentRelease)
+
 	commits, err := c.GetCommitsBetween(previousRelease, currentRelease)
 	if err != nil {
 		panic(err)
 	}
 
+	fmt.Printf("[DEBUG] got %d commits\n",
+		len(commits))
+
 	prs, err := c.GetPullRequestsForCommits(commits)
 	if err != nil {
 		panic(err)
 	}
+
+	fmt.Printf("[DEBUG] got %d pullrequests\n",
+		len(prs))
 
 	fmt.Printf("# %s\n", releaseNotesConfig.Title)
 	for _, pr := range prs {

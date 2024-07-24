@@ -1,4 +1,4 @@
-package pkg
+package github
 
 import (
 	"github.com/jenkins-x/go-scm/scm"
@@ -21,6 +21,7 @@ func New(accessToken string, owner string, repo string) GithubClient {
 type GithubClient interface {
 	GetCommitsBetween(start string, end string) ([]Commit, error)
 	GetPullRequestsForCommits(commits []Commit) ([]PullRequest, error)
+	GetLatestTag() (string, error)
 }
 
 type githubClient struct {

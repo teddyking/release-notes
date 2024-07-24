@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/garethjevans/release-notes/pkg"
 	"github.com/garethjevans/release-notes/pkg/config"
+	"github.com/garethjevans/release-notes/pkg/github"
 	"github.com/garethjevans/release-notes/pkg/kiln"
 	"net/url"
 	"os"
@@ -12,13 +12,19 @@ import (
 
 func main() {
 	releaseNotesConfig := config.MustLoad(".github/release-notes.yml")
-	owner := releaseNotesConfig.Owner
 	accessToken := os.Getenv("GITHUB_TOKEN")
+	if accessToken == "" {
+		panic("no access token is available via GITHUB_TOKEN")
+	}
 
-	previousRelease := "v0.4.0"
 	currentRelease := "HEAD"
 
-	c := pkg.New(accessToken, owner, releaseNotesConfig.Repo)
+	c := github.New(accessToken, releaseNotesConfig.Owner, releaseNotesConfig.Repo)
+
+	previousRelease, err := c.GetLatestTag()
+	if err != nil {
+		panic(err)
+	}
 
 	commits, err := c.GetCommitsBetween(previousRelease, currentRelease)
 	if err != nil {
@@ -71,7 +77,7 @@ func main() {
 			gitRepo := baseKilnfile.GetGithubRepositoryForRelease(include.Name)
 			o, r := MustExtractOwnerAndRepoFromGitUrl(gitRepo)
 
-			c = pkg.New(accessToken, o, r)
+			c = github.New(accessToken, o, r)
 
 			commits, err = c.GetCommitsBetween(
 				fmt.Sprintf("v%s", genaiBase),

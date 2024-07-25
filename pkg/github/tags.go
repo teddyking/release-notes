@@ -12,5 +12,9 @@ func (c *githubClient) GetLatestTag() (string, error) {
 		return "", err
 	}
 
+	if len(refs) == 0 {
+		return "", nil
+	}
+
 	return refs[0].Name, nil
 }

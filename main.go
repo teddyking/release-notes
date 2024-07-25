@@ -33,6 +33,10 @@ func main() {
 		panic(err)
 	}
 
+	if previousRelease == "" {
+		previousRelease = "HEAD^"
+	}
+
 	fmt.Printf("[DEBUG] looking for commits on %s/%s between %s and %s\n",
 		releaseNotesConfig.Owner, releaseNotesConfig.Repo,
 		previousRelease, currentRelease)

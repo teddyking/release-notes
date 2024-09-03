@@ -5,8 +5,8 @@ import (
 	"github.com/jenkins-x/go-scm/scm/factory"
 )
 
-func New(accessToken string, owner string, repo string) GithubClient {
-	gh, err := factory.NewClient("github", "https://github.com", accessToken)
+func New(serverURL, accessToken, owner, repo string) GithubClient {
+	gh, err := factory.NewClient("github", serverURL, accessToken)
 	if err != nil {
 		panic(err)
 	}

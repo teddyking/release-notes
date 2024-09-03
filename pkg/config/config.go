@@ -1,8 +1,9 @@
 package config
 
 import (
-	"gopkg.in/yaml.v2"
 	"os"
+
+	"gopkg.in/yaml.v2"
 )
 
 func MustLoad(path string) Config {
@@ -21,10 +22,11 @@ func MustLoad(path string) Config {
 }
 
 type Config struct {
-	Owner    string    `yaml:"owner"`
-	Repo     string    `yaml:"repo"`
-	Title    string    `yaml:"title"`
-	Includes []Include `yaml:"includes"`
+	ServerURL string    `yaml:"server_url"`
+	Owner     string    `yaml:"owner"`
+	Repo      string    `yaml:"repo"`
+	Title     string    `yaml:"title"`
+	Includes  []Include `yaml:"includes"`
 }
 
 type Include struct {

@@ -2,12 +2,13 @@ package main
 
 import (
 	"fmt"
-	"github.com/garethjevans/release-notes/pkg/config"
-	"github.com/garethjevans/release-notes/pkg/github"
-	"github.com/garethjevans/release-notes/pkg/kiln"
 	"net/url"
 	"os"
 	"strings"
+
+	"github.com/garethjevans/release-notes/pkg/config"
+	"github.com/garethjevans/release-notes/pkg/github"
+	"github.com/garethjevans/release-notes/pkg/kiln"
 )
 
 const path = ".github/release-notes.yml"
@@ -26,7 +27,7 @@ func main() {
 
 	currentRelease := "HEAD"
 
-	c := github.New(accessToken, releaseNotesConfig.Owner, releaseNotesConfig.Repo)
+	c := github.New(releaseNotesConfig.ServerURL, accessToken, releaseNotesConfig.Owner, releaseNotesConfig.Repo)
 
 	previousRelease, err := c.GetLatestTag()
 	if err != nil {
@@ -98,7 +99,7 @@ func main() {
 			gitRepo := baseKilnfile.GetGithubRepositoryForRelease(include.Name)
 			o, r := MustExtractOwnerAndRepoFromGitUrl(gitRepo)
 
-			c = github.New(accessToken, o, r)
+			c = github.New(releaseNotesConfig.ServerURL, accessToken, o, r)
 
 			commits, err = c.GetCommitsBetween(
 				fmt.Sprintf("v%s", genaiBase),
